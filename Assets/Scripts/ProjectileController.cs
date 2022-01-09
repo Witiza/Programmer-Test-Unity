@@ -6,6 +6,7 @@ public class ProjectileController : MonoBehaviour
 {
     public float bullet_speed;
     Rigidbody2D rb;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,10 +27,14 @@ public class ProjectileController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Enemy")
+        if(collision.tag == "Enemy" && tag == "PlayerBullet")
         {
             collision.gameObject.GetComponent<EnemyController>().Death();
             Destroy(gameObject);
+        }
+        else if(collision.tag == "Player" && tag == "EnemyBullet")
+        {
+            Debug.Log("GAME OVER");
         }
     }
     

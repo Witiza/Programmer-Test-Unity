@@ -30,13 +30,19 @@ public class EnemyMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        direction *= -1;
-        GameController.SideCollision();
+        if (collision.tag == "Wall")
+        {
+            direction *= -1;
+            GameController.SideCollision();
+        }
     }
 
     private void AdjoustSize()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        if (enemies.Length == 0)
+            return;
+
         horizontal_movespeed = enemies[0].GetComponent<EnemyController>().horizontal_movespeed;
         GameObject min_x = enemies[0];
         GameObject max_x = enemies[0];

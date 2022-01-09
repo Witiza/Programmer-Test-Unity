@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour
             bullet_available = false;
             Vector2 bullet_position = rb.position;
             bullet_position.y += bullet_offset;
-            GameObject current_bullet = Instantiate(bullet,bullet_position,Quaternion.identity);
+            Instantiate(bullet,bullet_position,Quaternion.identity);
          
             StartCoroutine(BulletCooldown());
         }
