@@ -10,12 +10,17 @@ public class ProjectileController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        rb.velocity = new Vector2(0, bullet_speed);
+        rb.velocity = new Vector2(0, bullet_speed*Time.deltaTime);
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    private void FixedUpdate()
+    {
+        rb.velocity = new Vector2(0, bullet_speed * Time.deltaTime);
     }
 }
