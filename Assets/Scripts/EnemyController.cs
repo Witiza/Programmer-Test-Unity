@@ -28,4 +28,26 @@ public class EnemyController : MonoBehaviour
         
 
     }
+    private void ChangeDirection()
+    {
+        direction *= -1;
+        Vector2 new_positon = rb.position;
+        new_positon.y += vertical_step;
+        rb.position = new_positon;
+    }
+    public void Death()
+    {
+        tag = "Dead";
+        GameController.EnemyDied();
+        Destroy(gameObject);
+    }
+
+    private void OnEnable()
+    {
+        GameController.OnSideCollision += ChangeDirection;
+    }
+    private void OnDisable()
+    {
+        GameController.OnSideCollision -= ChangeDirection;
+    }
 }
