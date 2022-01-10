@@ -27,14 +27,30 @@ public class ProjectileController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Enemy" && tag == "PlayerBullet")
+        if (tag == "PlayerBullet")
         {
-            collision.gameObject.GetComponent<EnemyController>().Death();
-            Destroy(gameObject);
+            if (collision.tag == "Enemy")
+            {
+                collision.gameObject.GetComponent<EnemyController>().Death();
+                Destroy(gameObject);
+            }
+            else if (collision.tag == "Obstacle")
+            {
+                Destroy(gameObject);
+            }
         }
-        else if(collision.tag == "Player" && tag == "EnemyBullet")
+        else if (tag == "EnemyBullet")
         {
-            Debug.Log("GAME OVER");
+            Debug.Log(collision.tag);
+            if (collision.tag == "Player")
+            {
+                Debug.Log("GAME OVER");
+            }
+            else if (collision.tag == "Obstacle")
+            {
+                Destroy(collision.gameObject);
+                Destroy(gameObject);
+            }
         }
     }
     

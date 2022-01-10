@@ -12,6 +12,7 @@ public class EnemyController : MonoBehaviour
     public float bullet_offset = -0.5f;
     public int attack_chance = 1;
     public float attack_cooldown = 2f;
+    public float speed_multiplier = 0.1f;
     public LayerMask mask;
 
     public GameObject bullet;
@@ -27,6 +28,7 @@ public class EnemyController : MonoBehaviour
         if (!hit)
         {
             Debug.Log("Should start");
+            StopAllCoroutines(); //Done so the coroutines do not stack
             StartCoroutine(AttackCooldown());
         }
  
@@ -73,6 +75,7 @@ public class EnemyController : MonoBehaviour
     {
         if(tag == "Enemy")
         {
+            horizontal_movespeed += horizontal_movespeed * speed_multiplier;
             CheckAttackAvailability();
         }
     }
