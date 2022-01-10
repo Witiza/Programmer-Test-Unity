@@ -7,7 +7,10 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rb;
+    AudioSource sfx;
+
     PlayerInput input;
+
     public float player_speed;
     float input_direction;
 
@@ -33,6 +36,7 @@ public class PlayerController : MonoBehaviour
         bullet_available = true;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        sfx = GetComponent<AudioSource>();
     }
 
     void Movement()
@@ -58,7 +62,7 @@ public class PlayerController : MonoBehaviour
             Vector2 bullet_position = rb.position;
             bullet_position.y += bullet_offset;
             Instantiate(bullet,bullet_position,Quaternion.identity);
-         
+            sfx.Play();
             StartCoroutine(BulletCooldown());
         }
     }

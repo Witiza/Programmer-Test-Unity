@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
     public float vertical_step;
     int direction = 1;
     Animator animator;
+    AudioSource sfx;
     public float bullet_offset = -0.5f;
     public int attack_chance = 1;
     public float attack_cooldown = 2f;
@@ -24,6 +25,7 @@ public class EnemyController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        sfx = GetComponent<AudioSource>();
         CheckAttackAvailability();
     }
     void CheckAttackAvailability()
@@ -61,6 +63,7 @@ public class EnemyController : MonoBehaviour
         {
             Vector2 bullet_position = rb.position;
             bullet_position.y += bullet_offset;
+            sfx.Play();
             Instantiate(bullet, bullet_position, Quaternion.identity);
         }
         StartCoroutine(AttackCooldown());
