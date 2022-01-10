@@ -6,8 +6,10 @@ public static class SaveLoad
 {
     public static void SaveScores(int[] scores)
     {
-        if(scores.Length != 9)
+        if (scores.Length != 9)
+        {
             Debug.LogWarning("Trying to save a score that is not 9 numbers long. Weird");
+        }
 
         string path = Application.persistentDataPath + "/Scores/";
         if (!Directory.Exists(path))
@@ -15,7 +17,7 @@ public static class SaveLoad
             Directory.CreateDirectory(path);
             Debug.Log("Folder created on: " + path);
         }
-        path += "hiscores.scr";
+        path += "hiscores.score";
 
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream stream = new FileStream(path, FileMode.Create);

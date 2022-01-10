@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -10,10 +11,14 @@ public class PlayerController : MonoBehaviour
     public float player_speed;
     float input_direction;
 
+    Animator animator;
     public GameObject bullet;
     public float bullet_cd;
     public float bullet_offset;
     bool bullet_available;
+    bool paused = false;
+
+    public int player_lives = 3;
     void Awake()
     {
         input = new PlayerInput();
@@ -26,15 +31,27 @@ public class PlayerController : MonoBehaviour
     {
         bullet_available = true;
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     void Movement()
     {
-        rb.velocity = new Vector2(input_direction * player_speed*Time.deltaTime, 0);
+        if (!paused)
+        {
+            float speed = input_direction * player_speed * Time.deltaTime;
+            rb.velocity = new Vector2(speed, 0);
+            animator.SetFloat("Movement", speed);
+            if (speed == 0)
+                animator.SetTrigger("Stopped");
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
+        }
     }
     void Shoot()
     {
-        if(bullet_available)
+        if(bullet_available && !paused)
         {
             bullet_available = false;
             Vector2 bullet_position = rb.position;
@@ -44,30 +61,50 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(BulletCooldown());
         }
     }
-    // Update is called once per frame
     void FixedUpdate()
     {
         Movement();
     }
 
-    private void Update()
+    private void PlayerHit()
     {
-        
+        animator.SetTrigger("Hit");
+        player_lives--;
+        if(player_lives >= 0)
+        {
+            GameObject.FindGameObjectWithTag("PlayerHP").GetComponent<Text>().text = "Lives: "+player_lives;
+            StartCoroutine(Pause(0.5f));
+        }
+    }
+    private void GameFinished()
+    {
+        StartCoroutine(Pause(5f));
     }
 
     private void OnEnable()
     {
         input.Player.Enable();
+        GameController.OnPlayerHit += PlayerHit;
+        GameController.OnGameFinish += GameFinished;
     }
 
     private void OnDisable()
     {
         input.Player.Disable();
+        GameController.OnPlayerHit -= PlayerHit;
+        GameController.OnGameFinish -= GameFinished;
     }
 
     IEnumerator BulletCooldown()
     {
         yield return new WaitForSeconds(bullet_cd);
         bullet_available = true;
+    }
+
+    IEnumerator Pause(float seconds)
+    {
+        paused = true;
+        yield return new WaitForSeconds(seconds);
+        paused = false;
     }
 }

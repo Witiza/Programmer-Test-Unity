@@ -12,6 +12,7 @@ TagManager:
   - Obstacle
   - Score
   - EnemyMovement
+  - PlayerHP
   layers:
   - Default
   - TransparentFX

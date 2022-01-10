@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -13,31 +15,79 @@ public class GameController : MonoBehaviour
     public delegate void MissedBullet();
     public static event MissedBullet OnMissedBullet;
 
-    // Start is called before the first frame update
+    public delegate void PlayerHit();
+    public static event PlayerHit OnPlayerHit;
+
+    public delegate void GameFinished();
+    public static event GameFinished OnGameFinish;
+
+    static int enemy_amount;
+    static int player_lives;
+    public GameObject game_over;
+    public GameObject congratulations;
+    bool finishing = false;
+
+
+
+
+
     void Start()
     {
-        
+        enemy_amount = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        player_lives = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().player_lives;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-
+        if(!finishing && (enemy_amount <= 0||player_lives <0))
+        {
+            finishing = true;
+            FinishedGame();
+            StartCoroutine(EndGame());
+        }
     }
     public static void BulletMiss()
     {
-        if (OnMissedBullet != null)
-            OnMissedBullet();
+        OnMissedBullet?.Invoke();
     }
-    public static void EnemyDied()
+    public  static void EnemyDied()
     {
-        if (OnEnemyDeath != null)
-            OnEnemyDeath();
+        OnEnemyDeath?.Invoke();
+        enemy_amount--;
+        if(enemy_amount<=0)
+        {
+            FinishedGame();
+        }
     }
 
     public static void SideCollision()
     {
-        if (OnSideCollision != null)
-            OnSideCollision();
+        OnSideCollision?.Invoke();
     }
+
+    public static void HitPlayer()
+    {
+        OnPlayerHit?.Invoke();
+        player_lives--;
+    }
+
+    public static void FinishedGame()
+    {
+        OnGameFinish?.Invoke();
+    }
+
+    IEnumerator EndGame()
+    {
+        if(enemy_amount == 0)
+        {
+            congratulations.SetActive(true);
+        }
+        else
+        {
+            game_over.SetActive(true);
+        }
+        yield return new WaitForSeconds(5f);
+        SceneManager.LoadScene("Scores");
+    }
+
 }

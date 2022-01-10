@@ -9,6 +9,7 @@ public class EnemyMovement : MonoBehaviour
     float direction = 1;
     public float horizontal_movespeed;
     public float collider_offset;
+    bool paused = false;
 
     // Start is called before the first frame update
     void Start()
@@ -22,9 +23,14 @@ public class EnemyMovement : MonoBehaviour
 
     void Movement()
     {
-        rb.velocity = new Vector2(direction * horizontal_movespeed * Time.deltaTime, 0);
+        if (!paused)
+        {
+            rb.velocity = new Vector2(direction * horizontal_movespeed * Time.deltaTime, 0);
+        }
+        else
+            rb.velocity = Vector2.zero; 
     }
-    // Update is called once per frame
+
     void FixedUpdate()
     {
         Movement();
@@ -63,12 +69,33 @@ public class EnemyMovement : MonoBehaviour
         box.size = new Vector2((max_x.transform.position.x+collider_offset) - (min_x.transform.position.x - collider_offset), 1);
     }
 
+    private void PlayerHit()
+    {
+        StartCoroutine(Pause(0.5f));
+    }
+    private void GameFinished()
+    {
+        StartCoroutine(Pause(5f));
+    }
+    IEnumerator Pause(float seconds)
+    {
+        paused = true;
+        yield return new WaitForSeconds(seconds);
+        paused = false;
+    }
+
     private void OnEnable()
     {
         GameController.OnEnemyDeath += AdjoustSize;
+        GameController.OnPlayerHit += PlayerHit;
+        GameController.OnGameFinish += GameFinished;
     }
     private void OnDisable()
     {
         GameController.OnEnemyDeath -= AdjoustSize;
+        GameController.OnPlayerHit -= PlayerHit;
+        GameController.OnGameFinish -= GameFinished;
+
     }
+
 }

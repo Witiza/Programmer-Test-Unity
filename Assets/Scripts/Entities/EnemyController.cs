@@ -9,16 +9,20 @@ public class EnemyController : MonoBehaviour
     public float horizontal_movespeed;
     public float vertical_step;
     int direction = 1;
+    Animator animator;
     public float bullet_offset = -0.5f;
     public int attack_chance = 1;
     public float attack_cooldown = 2f;
     public float speed_multiplier = 0.1f;
     public LayerMask mask;
 
+    bool paused = false;
+
     public GameObject bullet;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         CheckAttackAvailability();
     }
     void CheckAttackAvailability()
@@ -35,17 +39,21 @@ public class EnemyController : MonoBehaviour
     }
     void Movement()
     {
-        rb.velocity = new Vector2(direction * horizontal_movespeed*Time.deltaTime, 0);
+        if (!paused)
+        {
+            rb.velocity = new Vector2(direction * horizontal_movespeed * Time.deltaTime, 0);
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
+        }
     }
-    // Update is called once per frame
+
     void FixedUpdate()
     {
         Movement();
     }
-    private void Update()
-    {
-       
-    }
+
     private void AttemptAttack()
     {
         if(Random.Range(0, 100)<attack_chance)
@@ -78,23 +86,45 @@ public class EnemyController : MonoBehaviour
         {
             horizontal_movespeed += horizontal_movespeed * speed_multiplier;
             CheckAttackAvailability();
+            animator.speed *= 1.5f;
         }
+    }
+
+    private void PlayerHit()
+    {
+        StopAllCoroutines();
+        StartCoroutine(Pause(0.5f));
+    }
+    private void GameFinished()
+    {
+        StartCoroutine(Pause(5f));
     }
     private void OnEnable()
     {
         GameController.OnSideCollision += ChangeDirection;
         GameController.OnEnemyDeath += OtherEnemyDeath;
+        GameController.OnPlayerHit += PlayerHit;
+        GameController.OnGameFinish += GameFinished;
     }
     private void OnDisable()
     {
         GameController.OnSideCollision -= ChangeDirection;
         GameController.OnEnemyDeath -= OtherEnemyDeath;
-
+        GameController.OnPlayerHit -= PlayerHit;
+        GameController.OnGameFinish -= GameFinished;
     }
 
     IEnumerator AttackCooldown()
     {
         yield return new WaitForSeconds(Random.Range(attack_cooldown/2,attack_cooldown*2));
         AttemptAttack();
+    }
+
+    IEnumerator Pause(float seconds)
+    {
+        paused = true;
+        yield return new WaitForSeconds(seconds);
+        paused = false;
+        CheckAttackAvailability();
     }
 }

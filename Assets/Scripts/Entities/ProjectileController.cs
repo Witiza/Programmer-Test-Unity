@@ -48,7 +48,7 @@ public class ProjectileController : MonoBehaviour
         {
             if (collision.tag == "Player")
             {
-                Debug.Log("GAME OVER");
+                GameController.HitPlayer();
             }
             else if (collision.tag == "Obstacle")
             {

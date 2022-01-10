@@ -13,28 +13,29 @@ public class ScoreSystem : MonoBehaviour
     Text text;
     private void Awake()
     {
+        SingletonCheck();
+    }
+     private void SingletonCheck()
+    {
         //We check if this GO already exists (which will happen when we restart the game or go to the score screen.
-        if(Instance != null && Instance != this)
+        if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
         }
         else
         {
+            Debug.Log(gameObject.name);
             DontDestroyOnLoad(gameObject);
             Instance = this;
             hiscores = SaveLoad.LoadScores();
             SetupTexts(SceneManager.GetActiveScene().buildIndex);
-
         }
-    }
-    void Start()
-    {
-
     }
 
     private void OnLevelWasLoaded(int level)
     {
-        SetupTexts(level);
+        //Somehow, this function is called even before awake is called
+        SingletonCheck();
     }
     void SetupTexts(int level)
     {
@@ -48,7 +49,7 @@ public class ScoreSystem : MonoBehaviour
             }
             else
             {
-                Debug.Log("SCORE FOUND");
+                Debug.Log("SCORE FOUND" + gameObject.name);
                 if (level == 3)
                 {
                     SetupHighscores();
@@ -89,6 +90,7 @@ public class ScoreSystem : MonoBehaviour
         }
 
         text.text = score_text;
+        score = 0;
     }
 
     void CheckForHighscore()
@@ -101,6 +103,7 @@ public class ScoreSystem : MonoBehaviour
                 break;
             }
         }
+        SaveLoad.SaveScores(hiscores);
     }
 
     private void OnEnable()
@@ -115,9 +118,5 @@ public class ScoreSystem : MonoBehaviour
         GameController.OnMissedBullet -= BulletMiss;
 
         //We do this in order to avoid saving 'ghost' score system scores.
-        if (hiscores.Length>0)
-        {
-            SaveLoad.SaveScores(hiscores);
-        }
     }
 }

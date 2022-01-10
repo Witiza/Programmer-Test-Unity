@@ -605,7 +605,7 @@ GameObject:
   - component: {fileID: 840075244}
   - component: {fileID: 840075243}
   m_Layer: 0
-  m_Name: ScoreSystem
+  m_Name: Fake
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
