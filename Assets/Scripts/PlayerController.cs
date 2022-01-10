@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 
     Animator animator;
     public GameObject bullet;
+    public GameObject explosion_particles;
     public float bullet_cd;
     public float bullet_offset;
     bool bullet_available;
@@ -70,8 +71,13 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger("Hit");
         player_lives--;
+        Instantiate(explosion_particles, rb.position, Quaternion.identity);
         if(player_lives >= 0)
         {
+            for(int i = 0;i<3;++i)
+            {
+                Instantiate(explosion_particles, rb.position, Quaternion.identity);
+            }
             GameObject.FindGameObjectWithTag("PlayerHP").GetComponent<Text>().text = "Lives: "+player_lives;
             StartCoroutine(Pause(0.5f));
         }

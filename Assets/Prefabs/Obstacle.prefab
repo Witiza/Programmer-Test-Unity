@@ -68,6 +68,7 @@ GameObject:
   - component: {fileID: 7639873537115249486}
   - component: {fileID: 7639873537115249484}
   - component: {fileID: 7639873537115249487}
+  - component: {fileID: 5610281188912103332}
   m_Layer: 6
   m_Name: Pods
   m_TagString: Obstacle
@@ -166,6 +167,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &5610281188912103332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7639873537115249473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256bbb8c2f3846349823260c2a730019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle: {fileID: 2705345181677770662, guid: 09856025a64e3864fb1302d7641ab5ee, type: 3}
 --- !u!1 &7639873537122757524
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,6 +191,7 @@ GameObject:
   - component: {fileID: 7639873537122757525}
   - component: {fileID: 7639873537122757523}
   - component: {fileID: 7639873537122757522}
+  - component: {fileID: 8045228599188050283}
   m_Layer: 6
   m_Name: Pods
   m_TagString: Obstacle
@@ -275,6 +290,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &8045228599188050283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7639873537122757524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256bbb8c2f3846349823260c2a730019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle: {fileID: 2705345181677770662, guid: 09856025a64e3864fb1302d7641ab5ee, type: 3}
 --- !u!1 &7639873537807507522
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,6 +396,7 @@ GameObject:
   - component: {fileID: 7639873537998845551}
   - component: {fileID: 7639873537998845549}
   - component: {fileID: 7639873537998845548}
+  - component: {fileID: 1726525881768587320}
   m_Layer: 6
   m_Name: Pods
   m_TagString: Obstacle
@@ -466,6 +495,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1726525881768587320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7639873537998845550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256bbb8c2f3846349823260c2a730019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle: {fileID: 2705345181677770662, guid: 09856025a64e3864fb1302d7641ab5ee, type: 3}
 --- !u!1 &7639873538695730609
 GameObject:
   m_ObjectHideFlags: 0
@@ -477,6 +519,7 @@ GameObject:
   - component: {fileID: 7639873538695730622}
   - component: {fileID: 7639873538695730620}
   - component: {fileID: 7639873538695730623}
+  - component: {fileID: 5068291685134545758}
   m_Layer: 6
   m_Name: Pods
   m_TagString: Obstacle
@@ -575,3 +618,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &5068291685134545758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7639873538695730609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256bbb8c2f3846349823260c2a730019, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particle: {fileID: 2705345181677770662, guid: 09856025a64e3864fb1302d7641ab5ee, type: 3}

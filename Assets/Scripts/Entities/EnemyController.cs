@@ -19,6 +19,7 @@ public class EnemyController : MonoBehaviour
     bool paused = false;
 
     public GameObject bullet;
+    public GameObject explosion_particles;
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -77,6 +78,7 @@ public class EnemyController : MonoBehaviour
         //We do this so we can update the movement just one time, instead of every time OtherEnemyDeath is called
         GameObject.FindGameObjectWithTag("EnemyMovement").GetComponent<EnemyMovement>().horizontal_movespeed += horizontal_movespeed * speed_multiplier;
         GameController.EnemyDied();
+        Instantiate(explosion_particles, rb.position, Quaternion.identity);
         Destroy(gameObject);
     }
 

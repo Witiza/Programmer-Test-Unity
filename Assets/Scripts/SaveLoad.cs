@@ -8,7 +8,7 @@ public static class SaveLoad
     {
         if (scores.Length != 9)
         {
-            Debug.LogWarning("Trying to save a score that is not 9 numbers long. Weird");
+            Debug.LogWarning("Trying to save a score that is not 9 numbers long. It has a lenght of: "+scores.Length);
         }
 
         string path = Application.persistentDataPath + "/Scores/";

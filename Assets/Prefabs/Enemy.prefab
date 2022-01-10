@@ -108,6 +108,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   bullet: {fileID: 8551389849250399381, guid: f0debb33589c7e74d8279a069f7367b1, type: 3}
+  explosion_particles: {fileID: 4264403936756618398, guid: 825cfb33aca98fc43974447d61e42fce, type: 3}
 --- !u!50 &3070445468303152357
 Rigidbody2D:
   serializedVersion: 4
