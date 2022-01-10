@@ -27,7 +27,6 @@ public class EnemyController : MonoBehaviour
 
         if (!hit)
         {
-            Debug.Log("Should start");
             StopAllCoroutines(); //Done so the coroutines do not stack
             StartCoroutine(AttackCooldown());
         }
@@ -67,6 +66,8 @@ public class EnemyController : MonoBehaviour
     public void Death()
     {
         tag = "Dead";
+        //We do this so we can update the movement just one time, instead of every time OtherEnemyDeath is called
+        GameObject.FindGameObjectWithTag("EnemyMovement").GetComponent<EnemyMovement>().horizontal_movespeed += horizontal_movespeed * speed_multiplier;
         GameController.EnemyDied();
         Destroy(gameObject);
     }

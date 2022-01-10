@@ -7,7 +7,7 @@ public class EnemyMovement : MonoBehaviour
     Rigidbody2D rb;
     BoxCollider2D box;
     float direction = 1;
-    float horizontal_movespeed;
+    public float horizontal_movespeed;
     public float collider_offset;
 
     // Start is called before the first frame update
@@ -15,6 +15,8 @@ public class EnemyMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         box = GetComponent<BoxCollider2D>();
+        //We do this so we can change the enemies movespeed by just modifiying their prefab
+        horizontal_movespeed = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyController>().horizontal_movespeed;
         AdjoustSize();
     }
 
@@ -43,7 +45,6 @@ public class EnemyMovement : MonoBehaviour
         if (enemies.Length == 0)
             return;
 
-        horizontal_movespeed = enemies[0].GetComponent<EnemyController>().horizontal_movespeed;
         GameObject min_x = enemies[0];
         GameObject max_x = enemies[0];
         for(int i = 1;i<enemies.Length;++i)

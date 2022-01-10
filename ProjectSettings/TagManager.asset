@@ -11,11 +11,12 @@ TagManager:
   - EnemyBullet
   - Obstacle
   - Score
+  - EnemyMovement
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Wall
+  - 
   - Water
   - UI
   - Obstacle

@@ -38,10 +38,14 @@ public class ProjectileController : MonoBehaviour
             {
                 Destroy(gameObject);
             }
+            else if(collision.tag == "Wall")
+            {
+                GameController.BulletMiss();
+                Destroy(gameObject);
+            }
         }
         else if (tag == "EnemyBullet")
         {
-            Debug.Log(collision.tag);
             if (collision.tag == "Player")
             {
                 Debug.Log("GAME OVER");

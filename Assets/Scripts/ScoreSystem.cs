@@ -13,7 +13,6 @@ public class ScoreSystem : MonoBehaviour
     Text text;
     private void Awake()
     {
-        score = 96;
         //We check if this GO already exists (which will happen when we restart the game or go to the score screen.
         if(Instance != null && Instance != this)
         {
@@ -40,7 +39,7 @@ public class ScoreSystem : MonoBehaviour
     void SetupTexts(int level)
     {
 
-        if (level == 1 || level == 3)
+        if (level == 5 || level == 1 || level == 3)
         {
             text = GameObject.FindGameObjectWithTag("Score").GetComponent<Text>();
             if (!text)
@@ -49,6 +48,7 @@ public class ScoreSystem : MonoBehaviour
             }
             else
             {
+                Debug.Log("SCORE FOUND");
                 if (level == 3)
                 {
                     SetupHighscores();
@@ -59,6 +59,13 @@ public class ScoreSystem : MonoBehaviour
     void EnemyDeath()
     {
         score += 10;
+        text.text = "Score: " + score;
+    }
+
+    void BulletMiss()
+    {
+        score -= 5;
+        score = score < 0 ? 0 : score;
         text.text = "Score: " + score;
     }
 
@@ -99,13 +106,16 @@ public class ScoreSystem : MonoBehaviour
     private void OnEnable()
     {
         GameController.OnEnemyDeath += EnemyDeath;
+        GameController.OnMissedBullet += BulletMiss;
     }
 
     private void OnDisable()
     {
         GameController.OnEnemyDeath -= EnemyDeath;
+        GameController.OnMissedBullet -= BulletMiss;
+
         //We do this in order to avoid saving 'ghost' score system scores.
-        if(hiscores.Length>0)
+        if (hiscores.Length>0)
         {
             SaveLoad.SaveScores(hiscores);
         }

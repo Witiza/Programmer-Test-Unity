@@ -10,6 +10,9 @@ public class GameController : MonoBehaviour
     public delegate void EnemyDeath();
     public static event EnemyDeath OnEnemyDeath;
 
+    public delegate void MissedBullet();
+    public static event MissedBullet OnMissedBullet;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +24,11 @@ public class GameController : MonoBehaviour
     {
 
     }
-
+    public static void BulletMiss()
+    {
+        if (OnMissedBullet != null)
+            OnMissedBullet();
+    }
     public static void EnemyDied()
     {
         if (OnEnemyDeath != null)
