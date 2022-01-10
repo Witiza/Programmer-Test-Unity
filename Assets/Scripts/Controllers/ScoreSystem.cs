@@ -9,7 +9,7 @@ public class ScoreSystem : MonoBehaviour
     public static ScoreSystem Instance;
 
     int score = 0;
-    int[] hiscores = new int[10];
+    int[] hiscores;
     Text text;
     private void Awake()
     {
@@ -24,10 +24,10 @@ public class ScoreSystem : MonoBehaviour
         }
         else
         {
-            Debug.Log(gameObject.name);
             DontDestroyOnLoad(gameObject);
             Instance = this;
-            hiscores = SaveLoad.LoadScores();
+            if(hiscores == null)
+                hiscores = SaveLoad.LoadScores();
             SetupTexts(SceneManager.GetActiveScene().buildIndex);
         }
     }
@@ -39,8 +39,7 @@ public class ScoreSystem : MonoBehaviour
     }
     void SetupTexts(int level)
     {
-
-        if (level == 5 || level == 1 || level == 3)
+        if (level == 2  || level == 3)
         {
             text = GameObject.FindGameObjectWithTag("Score").GetComponent<Text>();
             if (!text)
@@ -49,26 +48,14 @@ public class ScoreSystem : MonoBehaviour
             }
             else
             {
-                Debug.Log("SCORE FOUND" + gameObject.name);
-                if (level == 3)
+                if (level == 2)
                 {
                     SetupHighscores();
                 }
             }
         }
     }
-    void EnemyDeath()
-    {
-        score += 10;
-        text.text = "Score: " + score;
-    }
-
-    void BulletMiss()
-    {
-        score -= 5;
-        score = score < 0 ? 0 : score;
-        text.text = "Score: " + score;
-    }
+   
 
     void SetupHighscores()
     {
@@ -106,17 +93,39 @@ public class ScoreSystem : MonoBehaviour
         SaveLoad.SaveScores(hiscores);
     }
 
+    void EnemyDeath()
+    {
+        score += 10;
+        text.text = "Score: " + score;
+    }
+
+    void BulletMiss()
+    {
+        score -= 5;
+        score = score < 0 ? 0 : score;
+        text.text = "Score: " + score;
+    }
+
+    void ObstacleHit()
+    {
+        score -= 1;
+        score = score < 0 ? 0 : score;
+        text.text = "Score: " + score;
+    }
+
     private void OnEnable()
     {
         GameController.OnEnemyDeath += EnemyDeath;
         GameController.OnMissedBullet += BulletMiss;
+        GameController.OnObstacleHit += ObstacleHit;
+
     }
 
     private void OnDisable()
     {
         GameController.OnEnemyDeath -= EnemyDeath;
         GameController.OnMissedBullet -= BulletMiss;
+        GameController.OnObstacleHit -= ObstacleHit;
 
-        //We do this in order to avoid saving 'ghost' score system scores.
     }
 }

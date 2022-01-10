@@ -6,7 +6,7 @@ public class ProjectileController : MonoBehaviour
 {
     public float bullet_speed;
     Rigidbody2D rb;
-    // Start is called before the first frame update
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -19,6 +19,7 @@ public class ProjectileController : MonoBehaviour
         rb.velocity = new Vector2(0, bullet_speed * Time.deltaTime);
     }
 
+    //We destroy directly both enemies and projectiles because Unity is in charge of properly destroying the GO's
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (tag == "PlayerBullet")
@@ -46,6 +47,7 @@ public class ProjectileController : MonoBehaviour
             }
             else if (collision.tag == "Obstacle")
             {
+                GameController.HitObstacle();
                 Destroy(collision.gameObject);
                 Destroy(gameObject);
             }

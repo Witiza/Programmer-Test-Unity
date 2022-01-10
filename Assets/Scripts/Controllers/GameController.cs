@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+//A mixture of a MonoBehaviour in charge of finishing the game, and an event manager in charge of ingame events. This events can be Invoked, and be listened to from anywhere.
 public class GameController : MonoBehaviour
 {
     public delegate void ChangeDirection();
@@ -17,6 +18,9 @@ public class GameController : MonoBehaviour
 
     public delegate void PlayerHit();
     public static event PlayerHit OnPlayerHit;
+
+    public delegate void ObstacleHit();
+    public static event ObstacleHit OnObstacleHit;
 
     public delegate void GameFinished();
     public static event GameFinished OnGameFinish;
@@ -41,10 +45,15 @@ public class GameController : MonoBehaviour
     {
         if(!finishing && (enemy_amount <= 0||player_lives <0))
         {
-            finishing = true;
-            FinishedGame();
-            StartCoroutine(EndGame());
+            EndGame();
         }
+    }
+
+    public void EndGame()
+    {
+        finishing = true;
+        FinishedGame();
+        StartCoroutine(EndCards());
     }
     public static void BulletMiss()
     {
@@ -54,10 +63,6 @@ public class GameController : MonoBehaviour
     {
         OnEnemyDeath?.Invoke();
         enemy_amount--;
-        if(enemy_amount<=0)
-        {
-            FinishedGame();
-        }
     }
 
     public static void SideCollision()
@@ -71,12 +76,17 @@ public class GameController : MonoBehaviour
         player_lives--;
     }
 
+    public static void HitObstacle()
+    {
+        OnObstacleHit?.Invoke();
+    }
+
     public static void FinishedGame()
     {
         OnGameFinish?.Invoke();
     }
 
-    IEnumerator EndGame()
+    IEnumerator EndCards()
     {
         if(enemy_amount == 0)
         {

@@ -2,6 +2,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
+//We save the scores to a binary file, and the volume to a player pref
 public static class SaveLoad 
 {
     public static void SaveScores(int[] scores)
@@ -44,5 +45,16 @@ public static class SaveLoad
                 ret[i] = 0;
         }
         return ret;
+    }
+
+    public static void SaveVolume(float volume)
+    {
+        Debug.Log(volume);
+        PlayerPrefs.SetFloat("Volume", volume);
+    }
+
+    public static float LoadVolume()
+    {
+        return PlayerPrefs.GetFloat("Volume", 1);
     }
 }

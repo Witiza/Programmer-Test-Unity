@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bed08145fac75ab48b2d4dd33ccdd01d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player_speed: 100
+  player_speed: 120
   bullet: {fileID: 8551389849250399381, guid: 78fb440d93670d245adcad60d844fb10, type: 3}
   explosion_particles: {fileID: 2755073446175294793, guid: ccf61511f530a324e984d2618b74f93c, type: 3}
   bullet_cd: 0.5
@@ -170,7 +170,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.000000007450581, y: -0.04956028}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.47436768, y: 0.62439144}
@@ -181,7 +181,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.46871382, y: 0.5361158}
   m_EdgeRadius: 0
 --- !u!95 &1823690994
 Animator:

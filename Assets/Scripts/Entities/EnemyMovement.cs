@@ -2,22 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//This class tells the enemies when they need to change direction
 public class EnemyMovement : MonoBehaviour
 {
     Rigidbody2D rb;
     BoxCollider2D box;
+
     float direction = 1;
     public float horizontal_movespeed;
     public float collider_offset;
     bool paused = false;
 
-    // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         box = GetComponent<BoxCollider2D>();
         //We do this so we can change the enemies movespeed by just modifiying their prefab
         horizontal_movespeed = GameObject.FindGameObjectWithTag("Enemy").GetComponent<EnemyController>().horizontal_movespeed;
+        //We do this initially so changing the amount of enemies onscreen wont affect this script.
         AdjoustSize();
     }
 
@@ -45,6 +47,7 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
+    //We only care about the two furthest enemies in the X axis, as it is where the enemies are bouncing.
     private void AdjoustSize()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");

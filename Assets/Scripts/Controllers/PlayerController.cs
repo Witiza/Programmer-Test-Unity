@@ -8,18 +8,21 @@ public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rb;
     AudioSource sfx;
+    Animator animator;
 
     PlayerInput input;
 
     public float player_speed;
     float input_direction;
 
-    Animator animator;
+
     public GameObject bullet;
     public GameObject explosion_particles;
+
     public float bullet_cd;
     public float bullet_offset;
     bool bullet_available;
+
     bool paused = false;
 
     public int player_lives = 3;
@@ -30,7 +33,7 @@ public class PlayerController : MonoBehaviour
         input.Player.Move.canceled += ctx => input_direction = 0f;
         input.Player.Shoot.started += ctx => Shoot();
     }
-    // Start is called before the first frame update
+
     void Start()
     {
         bullet_available = true;
@@ -61,11 +64,13 @@ public class PlayerController : MonoBehaviour
             bullet_available = false;
             Vector2 bullet_position = rb.position;
             bullet_position.y += bullet_offset;
+
             Instantiate(bullet,bullet_position,Quaternion.identity);
             sfx.Play();
             StartCoroutine(BulletCooldown());
         }
     }
+    //We use FixedUpdate because we are dealing with physics
     void FixedUpdate()
     {
         Movement();
@@ -76,8 +81,10 @@ public class PlayerController : MonoBehaviour
         animator.SetTrigger("Hit");
         player_lives--;
         Instantiate(explosion_particles, rb.position, Quaternion.identity);
+
         if(player_lives >= 0)
         {
+            //Cheap way to make a "Bigger explosion"
             for(int i = 0;i<3;++i)
             {
                 Instantiate(explosion_particles, rb.position, Quaternion.identity);
@@ -89,6 +96,14 @@ public class PlayerController : MonoBehaviour
     private void GameFinished()
     {
         StartCoroutine(Pause(5f));
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.collider.tag == "Enemy")
+        {
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<GameController>().EndGame();
+        }
     }
 
     private void OnEnable()

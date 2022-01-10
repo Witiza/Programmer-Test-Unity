@@ -6,16 +6,21 @@ public class EnemyController : MonoBehaviour
 {
     // Start is called before the first frame update
     Rigidbody2D rb;
+    Animator animator;
+    AudioSource sfx;
+
     public float horizontal_movespeed;
     public float vertical_step;
     int direction = 1;
-    Animator animator;
-    AudioSource sfx;
+
     public float bullet_offset = -0.5f;
     public int attack_chance = 1;
     public float attack_cooldown = 2f;
     public float speed_multiplier = 0.1f;
+
     public LayerMask mask;
+
+    Coroutine shooting;
 
     bool paused = false;
 
@@ -28,14 +33,15 @@ public class EnemyController : MonoBehaviour
         sfx = GetComponent<AudioSource>();
         CheckAttackAvailability();
     }
+    //Checks if there are enemies in front, and if not, initiates an attack.
     void CheckAttackAvailability()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up,50,mask);
 
         if (!hit)
         {
-            StopAllCoroutines(); //Done so the coroutines do not stack
-            StartCoroutine(AttackCooldown());
+            if(shooting  == null)
+                shooting = StartCoroutine(AttackCooldown());
         }
  
 
@@ -56,7 +62,7 @@ public class EnemyController : MonoBehaviour
     {
         Movement();
     }
-
+    //In order to make the enemies more random, each attack wont neccesarily spawn a bullet. The chances can be adjosuted from the editor
     private void AttemptAttack()
     {
         if(Random.Range(0, 100)<attack_chance)
@@ -68,6 +74,7 @@ public class EnemyController : MonoBehaviour
         }
         StartCoroutine(AttackCooldown());
     }
+    //"Bounce" and get close to the player
     private void ChangeDirection()
     {
         direction *= -1;
